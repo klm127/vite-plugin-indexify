@@ -3,12 +3,14 @@
     "declaration": true,
     "declarationMap": false,
     "skipLibCheck": true,
+
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "removeComments": false,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "isolatedModules": true,
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -16,7 +18,10 @@
     "noImplicitAny": false,
     "outDir": "dist",
     "lib": [
-      "esnext",
+      "esnext"
+    ],
+    "types": [
+      "node",
     ],
     "baseUrl": ".",
     "rootDir": ".",

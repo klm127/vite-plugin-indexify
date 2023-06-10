@@ -51,13 +51,26 @@ interface IndexifyOutput {
 	dirContents?: IndexifyOutput[];
 }
 
+import { type Plugin } from "vite";
+import path from "path";
+
 /** A GREAT LITTLE FUNCTION */
-export default function indexify(x: IndexifyOptions) {
+export default function indexify(x?: IndexifyOptions): Plugin {
 	const p = x;
-	console.log(p);
 	return {
 		name: "indexify-assets",
 		version: "0.0.1",
-		buildStart() {},
+		writeBundle(options, bundle) {
+			console.log(Object.keys(bundle));
+			console.log(options.paths);
+			console.log(options.dir);
+			for (let k of Object.keys(bundle)) {
+				const containing_folder = path.join(
+					options.dir ? options.dir : "",
+					path.dirname(k)
+				);
+				console.log(containing_folder);
+			}
+		},
 	};
 }
