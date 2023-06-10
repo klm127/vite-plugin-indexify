@@ -1,0 +1,46 @@
+{
+    "name": "@klm127/vite-plugin-indexify-public",
+    "private": true,
+    "description": "This is a monorepo for vite-plugin-indexify-public",
+    "keywords": [
+        "vite",
+        "vite-plugin",
+        "indexify",
+        "assets",
+        "dirents",
+        "directory",
+        "index",
+        "listing"
+    ],
+    "author": "Karl Miller",
+    "scripts": {
+        "build": "tsc & rollup -c"
+    },
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.es.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com"
+    },
+    "devDependencies": {
+        "typescript": "^5.1.3"
+    },
+    "peerDependenciesMeta": {
+        "rollup": {
+            "optional": true
+        }
+    },
+    "packageManager": "pnpm@8.0.2",
+    "prettier": {
+        "useTabs": true
+    },
+    "pnpm": {
+        "overrides": {
+            "vite-plugin-indexify-assets": "workspace: *"
+        }
+    }
+}

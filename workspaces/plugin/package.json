@@ -1,0 +1,60 @@
+{
+  "name": "vite-plugin-indexify-public",
+  "private": false,
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "klm127",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "description": "Generate jsons that index the files in public directory and/or subdirectories.",
+  "homepage": "https://github.com/klm127/vite-plugin-indexify-assets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klm127/vite-plugin-indexify-assets",
+    "directory": "workspaces/plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/klm127/vite-plugin-indexify-assets/issues"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "indexify",
+    "assets",
+    "public",
+    "dirents",
+    "directory",
+    "index",
+    "listing"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "dev": "vite build --watch",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.2",
+    "@types/node": "^18.16.3",
+    "typescript": "^4.9.5",
+    "vite": "^4.3.4",
+    "vite-plugin-dts": "^2.3.0"
+  },
+  "peerDependencies": {
+    "vite": ">= 2.0.0"
+  }
+}

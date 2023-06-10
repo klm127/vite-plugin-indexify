@@ -1,0 +1,15 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "declaration": false,
+        "baseUrl": "..",
+        "paths": {
+            "indexify-assets": [
+                "./src"
+            ]
+        }
+    },
+    "include": [
+        "./test.ts"
+    ]
+}
