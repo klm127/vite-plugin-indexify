@@ -35,6 +35,9 @@
 
 .card {
   padding: 2em;
+  border: 1px solid rgb(31, 29, 29);
+  border-radius: 10px;
+  background-color: rgb(55,55,55);
 }
 
 .read-the-docs {

@@ -1,22 +1,22 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
-import indexify from "vite-plugin-indexify-public";
+import { defineConfig, createLogger } from "vite";
+import indexify from "vite-plugin-indexify";
 export default defineConfig({
 	plugins: [
 		react(),
-		indexify({
-			publicSubdirs: [
-				{
-					directory: ".",
-					recurse: true,
-				},
-			],
-		}),
+		indexify([
+			{
+				directory: "posts",
+				recurse: true,
+				includeSubdirs: false,
+				include: /.*\.md$/,
+			},
+		]),
 	],
 	publicDir: "public",
 	build: {
 		rollupOptions: {
-			input: ["src/extra.ts", "index.html"],
+			input: ["index.html"],
 			output: {
 				entryFileNames: "assets/js/bundles/[name].bundle.js",
 				assetFileNames: "assets/[ext]/[name].[ext]",

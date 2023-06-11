@@ -1,32 +1,35 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useIndexFilesOnly } from './hooks'
+import MdView from './MdView'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const postListings = useIndexFilesOnly("posts/index.json")
+  const [selected, setSelected] = useState('')
+  const onSelect = (e: React.ChangeEvent) => {
+    if (e.target !== undefined) {
+      const sel = e.target as HTMLSelectElement
+      if (sel.value !== undefined) {
+        setSelected(sel.value)
+      }
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <h1>vite-plugin-indexify</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <select defaultValue={''} onChange={onSelect}>
+          <option value={''}></option>
+          {postListings.map((listitem) => <option value={listitem} key={listitem}>{listitem}</option>)}
+        </select>
+        {selected.length > 0 ? <h3>Showing {selected}</h3> : null}
+        <div>
+          {selected.length > 0 ? <MdView path={'posts/' + selected}></MdView> : <div>Pick a post to view</div>}
+        </div>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        <a href="https://www.github.com/klm127/vite-plugin-indexify">Check out vite-plugin-indexify</a>
       </p>
     </>
   )
