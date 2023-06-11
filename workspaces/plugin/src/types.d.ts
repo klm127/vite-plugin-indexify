@@ -34,12 +34,25 @@ export interface IndexifyDirectoryOptions {
 	include?: RegExp;
 	/** Filenames matching this pattern will not be indexified. Defaults to none. */
 	exclude?: RegExp;
-	/** Whether to include directories in the index.json */
-	includeSubdirs?: boolean;
 	/** Whether to recurse into and indexify subdirectories. They will have the same indexFileName. */
 	recurse?: boolean;
-	/** Whether to flatten the indexification of subdirectories, e.g., list each filename as a top-level entry in the index.json or list them as nested in each entry. Defaults to flat.*/
-	recurseFlat?: boolean;
+	/* Whether to put an entry in the index for subdirectories or not. */
+	includeSubdirectories?: boolean;
+}
+
+export interface IndexifyDefaultedDirectoryOptions {
+	/** The directory, relative to 'public', to indexify. */
+	directory: string;
+	/** The output file name. Defaults to 'index.json' */
+	indexFileName: string;
+	/** Only filenames matching this pattern will be indexified. Defaults to all. */
+	include?: RegExp;
+	/** Filenames matching this pattern will not be indexified. Defaults to none. */
+	exclude?: RegExp;
+	/** Whether to recurse into and indexify subdirectories. They will have the same indexFileName. */
+	recurse: boolean;
+	/* Whether to put an entry in the index for subdirectories or not. */
+	includeSubdirectories: boolean;
 }
 
 export interface IndexifyOutput {

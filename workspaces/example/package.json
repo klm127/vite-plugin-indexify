@@ -12,7 +12,7 @@
         "url": "https://github.com/klm127/indexify-assets/issues"
     },
     "scripts": {
-        "serve": "vite",
+        "serve": "vite --verbose",
         "build": "vite build",
         "preview": "vite preview"
     },

@@ -53,24 +53,68 @@ interface IndexifyOutput {
 
 import { type Plugin } from "vite";
 import path from "path";
+import fs from "fs";
+import getIndexifier from "./getIndexifier";
 
-/** A GREAT LITTLE FUNCTION */
-export default function indexify(x?: IndexifyOptions): Plugin {
-	const p = x;
+/**
+ * Indexify creates index.jsons for your output directories.
+ *
+ * These files can list all or some of the files and/or folders in all or some of your directories.
+ *
+ * Example output, perhaps `assets/posts/index.json`:
+ * @example
+ * ```json
+ * [{
+ * 	"name": "post1.md",
+ * 	"isDirectory": false
+ * },{
+ * 	"name": "oldPosts",
+ * 	"isDirectory": true
+ * }]
+ * ]
+ * ```
+ * 
+ * Indexify is passed a list of directories, relative to your output directory, that you want to create an index file for.
+ * 
+ * @example
+ * ```js
+ * plugins: [
+ * 	indexify({
+ * 		publicSubdirs: [
+ * 			{
+ *				directory: "posts",
+ * 				recurse: true,
+ * 			},
+ * 			{
+ * 				directory: "images",
+ * 				recurse: false,
+ * 				includeSubdirs: true
+ * 			}
+ * 		],
+ * 	}),
+ * ]
+```
+ * 
+ */
+export default function indexify(indexifyOptions?: IndexifyOptions): Plugin {
+	let iWriter = getIndexifier(indexifyOptions, undefined);
 	return {
 		name: "indexify-assets",
 		version: "0.0.1",
-		writeBundle(options, bundle) {
-			console.log(Object.keys(bundle));
-			console.log(options.paths);
-			console.log(options.dir);
-			for (let k of Object.keys(bundle)) {
-				const containing_folder = path.join(
-					options.dir ? options.dir : "",
-					path.dirname(k)
-				);
-				console.log(containing_folder);
-			}
+		writeBundle: {
+			order: "post",
+			handler: (options, bundle) => {
+				iWriter();
+			},
+		},
+		buildStart(options) {
+			console.log("buildStart");
+		},
+		outputOptions(options) {
+			iWriter = getIndexifier(indexifyOptions, options.dir);
+		},
+		closeBundle() {
+			console.log("close bundle");
 		},
 	};
 }
