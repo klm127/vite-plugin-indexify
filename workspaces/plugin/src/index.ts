@@ -1,47 +1,3 @@
-/**
- * The plugin-specific options for indexify.
- *
- * @example
- * ```js
- * indexify({
- *  dirs: [{
- *      directory: 'posts',
- *      indexFileName: 'posts.json',
- *      include: '.*\.md$',
- *      exclude: '.*\.draft.md$'
- *      recurse: true
- *  },{
- *      directory: 'images/fetchable-images',
- *      indexFileName: 'images.json',
- *      recurse: true,
- *      recurseFlat: true
- *  }]
- *
- * })
- * ```
- */
-interface IndexifyOptions {
-	/** The directories in assets to indexify.  */
-	publicSubdirs: IndexifyDirectoryOptions[];
-}
-
-interface IndexifyDirectoryOptions {
-	/** The directory, relative to 'public', to indexify. */
-	directory: string;
-	/** The output file name. Defaults to 'index.json' */
-	indexFileName?: string;
-	/** Only filenames matching this pattern will be indexified. Defaults to all. */
-	include?: RegExp;
-	/** Filenames matching this pattern will not be indexified. Defaults to none. */
-	exclude?: RegExp;
-	/** Whether to include directories in the index.json */
-	includeSubdirs?: boolean;
-	/** Whether to recurse into and indexify subdirectories. They will have the same indexFileName. */
-	recurse?: boolean;
-	/** Whether to flatten the indexification of subdirectories, e.g., list each filename as a top-level entry in the index.json or list them as nested in each entry. Defaults to flat.*/
-	recurseFlat?: boolean;
-}
-
 interface IndexifyOutput {
 	/** The name of the entry */
 	name: string;
@@ -52,16 +8,34 @@ interface IndexifyOutput {
 }
 
 import { type Plugin } from "vite";
-import path from "path";
-import fs from "fs";
-import getIndexifier from "./getIndexifier";
+import getIndexifier, { type IndexifyOptions } from "./getIndexifier";
 
 /**
  * Indexify creates index.jsons for your output directories.
  *
  * These files can list all or some of the files and/or folders in all or some of your directories.
  *
- * Example output, perhaps `assets/posts/index.json`:
+ * Indexify is passed a list of directories, relative to your output directory, that you want to create an index file for. The following is how it is used in a vite config.
+ *
+ * @example
+ * ```js
+ * plugins: [
+ * 	indexify([
+ * 		{
+ * 			directory: "assets/posts",
+ * 			includeSubdirs: true
+ * 			recurse: true,
+ * 			indexFileName: "posts.json"
+ * 		},
+ * 		{
+ * 			directory: "assets/images",
+ * 			recurse: false,
+ * 		}
+ * 	]),
+ * ]
+ * ```
+ *
+ * Here is an example output, perhaps `assets/posts/posts.json`:
  * @example
  * ```json
  * [{
@@ -73,28 +47,6 @@ import getIndexifier from "./getIndexifier";
  * }]
  * ]
  * ```
- * 
- * Indexify is passed a list of directories, relative to your output directory, that you want to create an index file for.
- * 
- * @example
- * ```js
- * plugins: [
- * 	indexify({
- * 		publicSubdirs: [
- * 			{
- *				directory: "posts",
- * 				recurse: true,
- * 			},
- * 			{
- * 				directory: "images",
- * 				recurse: false,
- * 				includeSubdirs: true
- * 			}
- * 		],
- * 	}),
- * ]
-```
- * 
  */
 export default function indexify(indexifyOptions?: IndexifyOptions): Plugin {
 	let iWriter = getIndexifier(indexifyOptions, undefined);
@@ -103,18 +55,31 @@ export default function indexify(indexifyOptions?: IndexifyOptions): Plugin {
 		version: "0.0.1",
 		writeBundle: {
 			order: "post",
-			handler: (options, bundle) => {
+			handler: () => {
 				iWriter();
 			},
-		},
-		buildStart(options) {
-			console.log("buildStart");
 		},
 		outputOptions(options) {
 			iWriter = getIndexifier(indexifyOptions, options.dir);
 		},
-		closeBundle() {
-			console.log("close bundle");
-		},
+		// configureServer(server) {
+		// console.log("\n~~~ configureServer called ~~~");
+		// const { config, httpServer } = server;
+		// httpServer?.once("listening", () => {
+		// 	const { root, base } = config;
+		// 	console.log("\n >> root, base: ", root, base);
+		// 	const inputs = config.build.rollupOptions.input;
+		// 	console.log("\n >> rollupOptions.input: ", inputs);
+		// 	console.log("\n >> config.cacheDir ", config.cacheDir);
+		// 	console.log("\n >> server middlewares", server.middlewares);
+		// 	// fs.writeFileSync(
+		// 	// 	path.join(config.cacheDir, "index.json"),
+		// 	// 	'{"hi":"hello"}'
+		// 	// );
+		// 	console.log("\n >> config.publicDir ", config.publicDir);
+		// 	console.log("\n >> config.build.outDir", config.build.outDir);
+		// });
+		// it's probably going to have to work in this area
+		// },
 	};
 }
