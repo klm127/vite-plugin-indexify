@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-indexify-public",
+  "name": "vite-plugin-indexify",
   "private": false,
   "version": "0.0.1",
   "license": "MIT",
@@ -14,14 +14,14 @@
     }
   },
   "description": "Generate jsons that index the files in public directory and/or subdirectories.",
-  "homepage": "https://github.com/klm127/vite-plugin-indexify-assets",
+  "homepage": "https://github.com/klm127/vite-plugin-indexify",
   "repository": {
     "type": "git",
-    "url": "https://github.com/klm127/vite-plugin-indexify-assets",
+    "url": "https://github.com/klm127/vite-plugin-indexify",
     "directory": "workspaces/plugin"
   },
   "bugs": {
-    "url": "https://github.com/klm127/vite-plugin-indexify-assets/issues"
+    "url": "https://github.com/klm127/vite-plugin-indexify/issues"
   },
   "files": [
     "dist",
