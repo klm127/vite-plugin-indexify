@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-indexify",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.7.0",
   "license": "MIT",
   "author": "klm127",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "description": "Generate jsons that index the files in public directory and/or subdirectories.",
+  "description": "Generate jsons that index all or some files output by vite.",
   "homepage": "https://github.com/klm127/vite-plugin-indexify",
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
   },
   "files": [
     "dist",
-    "CHANGELOG.md",
     "README.md"
   ],
   "keywords": [
@@ -40,12 +39,8 @@
     "listing"
   ],
   "scripts": {
-    "prepublishOnly": "npm run build",
     "dev": "vite build --watch",
     "build": "vite build"
-  },
-  "dependencies": {
-    "ejs": "^3.1.9"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.2",
